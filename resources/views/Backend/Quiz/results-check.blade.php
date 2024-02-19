@@ -99,13 +99,7 @@
 @endsection
 @section('script')
     <script>
-        // Function to handle window unload
-        function handleWindowUnload(event) {
-            // Redirect to main page if user clicked on "Reload"
-            if (event.currentTarget.performance.navigation.type === PerformanceNavigation.TYPE_RELOAD) {
-                window.location.href = 'student/dahboard'; // Replace '/main-page' with your main page URL
-            }
-        }
+
 
         // Attach event listener for unload event
         window.addEventListener('unload', handleWindowUnload);
@@ -118,7 +112,7 @@
             $(tabs[index]).removeClass("d-none");
 
             $("#back_button").prop("disabled", index === 0);
-            $("#next_button").text(index === numQuestions - 1 ? "Return Dashboard" : "Next");
+            $("#next_button").text(index === numQuestions - 1 ? "Return Results" : "Next");
         }
 
         loadQuestion(currentQuestion);
@@ -148,7 +142,7 @@
             setTimeout(function() {
                 // Redirect to the next URL
                 window.location.href =
-                    "{{ route('dashboard') }}"; // Replace 'next_url' with your Laravel route name
+                    "{{ route('result.index') }}"; // Replace 'next_url' with your Laravel route name
             }); // Change 3000 to the time it takes to submit the quiz (in milliseconds)
         }
 

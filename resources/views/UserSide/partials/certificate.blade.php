@@ -234,36 +234,16 @@ License: For each use you must have a valid license purchased only from above li
                                         style="font-size: 13px; text-align:center; padding: 0 10px 10px 10px; font-weight: 500; color: #A1A5B7; font-family:Arial,Helvetica,sans-serif">
                                         <p style="color:#181C32; font-size: 16px; font-weight: 600; margin-bottom:9px">
                                             It’s all about Training!</p>
-                                        <p style="margin-bottom:2px">Call our customer care number: +31 6 3344 55 56
+                                        <p style="margin-bottom:2px">Call our customer care number: +1 (510) 246-8939
                                         </p>
                                         <p style="margin-bottom:4px">You may reach us at
-                                            <a href="https://devs.keenthemes.com" rel="noopener" target="_blank"
-                                                style="font-weight: 600">baypassdrivingschool.com</a>.
+                                            <a href="mailto:info@baypassdrivingschool.com" rel="noopener" target="_blank"
+                                                style="font-weight: 600">info@baypassdrivingschool.com</a>.
                                         </p>
                                         <p>We serve Mon-Fri, 9AM-18AM</p>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td align="center" valign="center"
-                                        style="text-align:center; padding-bottom: 20px;">
-                                        <a href="#" style="margin-right:10px">
-                                            <img alt="Logo"
-                                                src="{{ asset('Certificate/assets/media/email/icon-linkedin.svg') }}" />
-                                        </a>
-                                        <a href="#" style="margin-right:10px">
-                                            <img alt="Logo"
-                                                src="{{ asset('Certificate/assets/media/email/icon-dribbble.svg') }}" />
-                                        </a>
-                                        <a href="#" style="margin-right:10px">
-                                            <img alt="Logo"
-                                                src="{{ asset('Certificate/assets/media/email/icon-facebook.svg') }}" />
-                                        </a>
-                                        <a href="#">
-                                            <img alt="Logo"
-                                                src="{{ asset('Certificate/assets/media/email/icon-twitter.svg') }}" />
-                                        </a>
-                                    </td>
-                                </tr>
+                              
 
                             </tbody>
                         </table>

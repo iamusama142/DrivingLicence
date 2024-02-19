@@ -16,7 +16,7 @@
     </div>
 
     <div class="top-nav-search">
-       
+
     </div>
     <a class="mobile_btn" id="mobile_btn">
         <i class="fas fa-bars"></i>
@@ -28,13 +28,13 @@
                 <img src="{{ asset('Backend/assets/img/icons/header-icon-04.svg') }}" alt="">
             </a>
         </li>
- 
+
 
 
 
 
         @php
-            $notifications = \App\Models\Notification::leftjoin('users','users.id','=','notifications.student_id')->whereDate('notifications.created_at', now())->where('notifications.type', '!=', 'announcement')->orderBy('notifications.created_at', 'DESC')->select('notifications.*','users.avatar')->get();
+            $notifications = \App\Models\Notification::leftjoin('users', 'users.id', '=', 'notifications.student_id')->whereDate('notifications.created_at', now())->where('notifications.type', '!=', 'announcement')->orderBy('notifications.created_at', 'DESC')->select('notifications.*', 'users.avatar')->get();
         @endphp
         <li class="nav-item dropdown noti-dropdown me-2" style="position: relative">
             <span class="bg-danger noti-count text-white">{{ count($notifications) }}</span>
@@ -55,7 +55,7 @@
                                     <div class="media d-flex">
                                         <span class="avatar avatar-sm flex-shrink-0">
                                             <img class="avatar-img rounded-circle" alt="User Image"
-                                            src="@if ($notifications_details->avatar != null) {{ asset('uploads/all/' . $notifications_details->avatar) }} @else https://img.icons8.com/plumpy/24/user.png @endif">
+                                                src="@if ($notifications_details->avatar != null) {{ asset('uploads/all/' . $notifications_details->avatar) }} @else https://img.icons8.com/plumpy/24/user.png @endif">
                                         </span>
                                         <div class="media-body flex-grow-1">
                                             <p class="noti-details"><span
@@ -80,10 +80,9 @@
         <li class="nav-item dropdown has-arrow new-user-menus">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                 <span class="user-img">
-                    <img class="rounded-circle" src="{{ asset('logo.png') }}"
-                        width="31" alt="Soeng Souy">
+                    <img class="rounded-circle" src="{{ asset('logo.png') }}" width="31" alt="Soeng Souy">
                     <div class="user-text">
-                        <h6>{{auth()->user()->name}}</h6>
+                        <h6>{{ auth()->user()->name }}</h6>
                         <p class="text-muted mb-0">Administrator</p>
                     </div>
                 </span>
@@ -91,18 +90,22 @@
             <div class="dropdown-menu">
                 <div class="user-header">
                     <div class="avatar avatar-sm">
-                        <img src="{{ asset('logo.png') }}" alt="User Image"
-                            class="avatar-img rounded-circle">
+                        <img src="{{ asset('logo.png') }}" alt="User Image" class="avatar-img rounded-circle">
                     </div>
                     <div class="user-text">
-                        <h6>{{auth()->user()->name}}</h6>
+                        <h6>{{ auth()->user()->name }}</h6>
 
                         <p class="text-muted mb-0">Administrator</p>
                     </div>
                 </div>
                 <a class="dropdown-item" href="#">My Profile</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
 
-                <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
+                    <button type="submit" class="dropdown-item">Logout</button>
+                </form>
+
+
             </div>
         </li>
     </ul>
@@ -136,7 +139,8 @@
                     <a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Appointments</span> <span
                             class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{{ route('appointments.request') }}" class="@yield('contact_a')">All Appointments</a>
+                        <li><a href="{{ route('appointments.request') }}" class="@yield('contact_a')">All
+                                Appointments</a>
                         </li>
 
                     </ul>
@@ -146,7 +150,8 @@
                             class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="{{ route('courses.index') }}" class="@yield('course_a')">List</a></li>
-                        <li><a href="{{ route('courses.enrollments.history') }}" class="@yield('course_a2')">Enrollments</a></li>
+                        <li><a href="{{ route('courses.enrollments.history') }}"
+                                class="@yield('course_a2')">Enrollments</a></li>
 
                     </ul>
                 </li>
@@ -187,8 +192,9 @@
                         <span class="menu-arrow"></span>
                     </a>
                     <ul>
-                        <li><a href="{{ route('student-gallery.index') }}" class="@yield('std_gallery_1')">Student Gallery</a></li>
-                       
+                        <li><a href="{{ route('student-gallery.index') }}" class="@yield('std_gallery_1')">Student
+                                Gallery</a></li>
+
                     </ul>
                 </li>
 

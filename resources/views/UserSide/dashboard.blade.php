@@ -85,6 +85,7 @@
 
         </div>
 
+        <h3 class="page-title">Available Courses</h3>
 
         <div class="row">
             @if (!$course)
