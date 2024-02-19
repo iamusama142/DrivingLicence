@@ -29,32 +29,60 @@ class EnrollmentController extends Controller
         $this->quickbook_credentials = new quickbook_credential();
     }
 
-
-    public function enroll_now(Request $request, $id)
+    public function redirect_dashboard(Request $request)
     {
 
+        $request->validate([
+            'selected_hour'=>'required',
+            'quantity'=>'required',
+        ]);
+        $id=$request->course_id;
+        $course = Course::findOrFail($id);
+        $selectedHour = $request->input('selected_hour');
+        $quantity = $request->quantity;
+        try {
+           $response = [
+                'code'=>'1',
+                'message'=>'Redirect to This url '. config('app.url') . '/enroll/course',
+            ];
+            $responseCode = '200';
+        } catch (\Exception $e) {
+            $response = [
+                'code'=>'0',
+                'message'=>'Internal Server Error',
+            ];
+            $responseCode = '500';
+        }
+        return response()->json($response, $responseCode);
+
+    }
 
 
-        // Sanitize input
-        $id = decrypt($id);
-
+    public function enroll_now(Request $request)
+    {
+        $id = $request->id;
         // Retrieve the course
         $course = Course::findOrFail($id);
-        // Get authenticated user's ID
+        $hours = json_decode($course->hours);
+        $price = json_decode($course->price);
+        $selectedHour = $request->input('selected_hour');
+        $hourIndex = array_search($selectedHour, $hours);
+        // Check if the hour exists in the $hours array
+        if ($hourIndex !== false) {
+            $selectedPrice = $price[$hourIndex];
+        } else {
+            return redirect()->back()->with('error', 'Try Again Later');
+        }
+        $total_price = $selectedPrice * $request->quantity;
         $student_id = auth()->user()->id;
         $stripe = new StripeClient('sk_test_51MivEEEN0QKqQRGXK690L7KvRBI1uKAkiA5U1woqkLO1i1c3o2WnJ8sqDTESlIp7CPqNOhxaj7U7OTIa7LVXGiKz00xQHSq1Zb');
-        $redirectUrl = route('stripe.checkout.success') . '?session_id=' . '{CHECKOUT_SESSION_ID}' . '&price=' .  $course->price . '&course_id=' . $course->id . '&student_id=' . $student_id;
-
-        // Create checkout session
+        $redirectUrl = route('stripe.checkout.success') . '?session_id=' . '{CHECKOUT_SESSION_ID}' . '&total_payment=' .  $total_price . '&quantity=' .  $request->quantity . '&hours=' .  $selectedHour . '&price=' .  $selectedPrice . '&course_id=' . $course->id . '&student_id=' . $student_id;
         // Calculate service fee
-        $serviceFee = 0.029 * $course->price;
+        $serviceFee = 0.029 * $total_price;
         // 2.9% of the price
-
         // Calculate total amount including service fee
-        $totalAmount = $course->price + $serviceFee + 0.10;
-
+        $totalAmount = $total_price + $serviceFee + 0.10;
         try {
-
             $response = $stripe->checkout->sessions->create([
                 'success_url' => $redirectUrl,
                 'customer_email' => auth()->user()->email,
@@ -90,13 +118,17 @@ class EnrollmentController extends Controller
         $enrollment = new Enrollment();
         $enrollment->enrollment_id = $enrollmentId;
         $enrollment->student_id = $request->student_id;
+        $enrollment->hours = $request->hours;
+        $enrollment->price = $request->price;
+        $enrollment->quantity = $request->quantity;
+        $enrollment->total_payment = $request->total_payment;
         $enrollment->course_id = $request->course_id;
         $enrollment->save();
 
         $course = Course::where('id', $request->course_id)->first();
         $notification = new Notification();
         $notification->title = 'New Course Enrollment By: ' . auth()->user()->name;
-        $notification->description = 'Student Enroll in Course: ' . $course->title . 'with price of' . $course->price;
+        $notification->description = 'Student Enroll in Course: ' . $course->title . 'Selected Hours is' . $request->hours . ', Quantity of Purchasing is ' . $request->quantity . ' and the total Price Student Pay is $ ' . $request->total_payment;
         $notification->student_id = auth()->user()->id;
         $notification->type = 'enrollments';
         $notification->url = '/student/courses/enrollments';
@@ -120,7 +152,7 @@ class EnrollmentController extends Controller
         $customer = Customer::create([
             "GivenName" => $user->name . ' ' . 'Enrollment ID ' . $enrollmentId,
             "DisplayName" =>  $user->name . ' ' . 'Enrollment ID ' . $enrollmentId,
-            'Notes' => 'Course Enrollment Billing, Course Name is' . ' ' . $course->title . 'and the price is $' . $course->price,
+            'Notes' => 'Course Enrollment Billing, Course Name is' . ' ' . $course->title . 'Selected Hours is' . $request->hours . ', Quantity of Purchasing is ' . $request->quantity . ' and the total Price Student Pay is $ ' . $request->total_payment,
             "PrimaryEmailAddr" => [
                 "Address" => $user->email,
             ],
@@ -193,7 +225,7 @@ class EnrollmentController extends Controller
      */
     public function history_student()
     {
-        $enrollment = Enrollment::where('student_id', auth()->user()->id)->join('courses', 'courses.id', '=', 'enrollments.course_id')->select('enrollments.*', 'courses.title', 'courses.price')->get();
+        $enrollment = Enrollment::where('student_id', auth()->user()->id)->join('courses', 'courses.id', '=', 'enrollments.course_id')->select('enrollments.*', 'courses.title')->get();
         return view('UserSide.Courses.enrollments')->with(compact('enrollment'));
     }
 

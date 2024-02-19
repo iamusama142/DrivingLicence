@@ -31,7 +31,8 @@
             <div class="container">
                 <div class="loginbox">
                     <div class="login-left">
-                        <img class="img-fluid" src="{{ asset('Backend/assets/img/login.png') }}" alt="Logo">
+                                            <img style="height: 100%;" class="img-fluid" src="https://baypassdrivingschool.com/wp-content/uploads/2023/09/Saa-WDIS-US-11122021-36640004140-banner-Blan.jpg" alt="Logo">
+
                     </div>
                     <div class="login-right">
                         <div class="login-right-wrap">
@@ -79,19 +80,6 @@
                                     <button class="btn btn-primary btn-block" type="submit">Register</button>
                                 </div>
                             </form>
-
-                            <div class="login-or">
-                                <span class="or-line"></span>
-                                <span class="span-or">or</span>
-                            </div>
-
-                            <div class="social-login">
-                                <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-
                         </div>
                     </div>
                 </div>

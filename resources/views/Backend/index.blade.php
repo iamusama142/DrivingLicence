@@ -106,12 +106,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6">
+            <div class="col-md-12 col-lg-12">
 
                 <div class="card card-chart">
                     <div class="card-header">
                         <div class="row align-items-center">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <h5 class="card-title">Best Selling Course</h5>
                             </div>
                             <div class="col-6">
@@ -146,7 +146,7 @@ No Record Found
         <script>
             var bestSellingCourses = @json($bestSellingCourses);
             var data = [];
-            var categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+            var categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'];
 
             for (var i = 1; i <= categories.length; i++) {
                 var bestCourse = bestSellingCourses[i] || {

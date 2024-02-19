@@ -182,7 +182,15 @@
                         <li><a href="{{ route('student.list') }}" class="@yield('student_a1')">List</a></li>
                     </ul>
                 </li>
-
+                <li class="submenu  @yield('std_gallery_li')">
+                    <a href="#"><i class="fa fa-newspaper"></i> <span> Gallery</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ route('student-gallery.index') }}" class="@yield('std_gallery_1')">Student Gallery</a></li>
+                       
+                    </ul>
+                </li>
 
             </ul>
         </div>

@@ -32,29 +32,41 @@
 
                         <div class="table-responsive">
                             <table
-                                class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
-                                <thead class="student-thread">
-                                    <tr>
-                                        <th>Course</th>
-                                        <th>Price</th>
-                                        <th>Enroll At</th>
+                            class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+                            <thead class="student-thread">
+                                <tr>
+                                  <th>Enrtollment #</th>
+                                    <th>Course</th>
+                                    <th>Price</th>
 
+                                    <th>Quantity</th>
+                                    <th>Hours</th>
+                                    <th>Payment</th>
+
+                                    <th>Enroll At</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($enrollment as $enrollment_details)
+                                    <tr>
+                                        <td>{{$enrollment_details->enrollment_id}}</td>
+                                        <td>
+                                            <h2>
+                                                <a>{{ $enrollment_details->title }}</a>
+                                            </h2>
+                                        </td>
+                                        <td>$ {{ number_format($enrollment_details->price) }}</td>
+
+                                        <td>{{ $enrollment_details->quantity }}</td>
+                                        <td>{{ $enrollment_details->hours }}</td>
+                                        <td>$ {{ number_format($enrollment_details->total_payment) }}</td>
+
+                                        <td>{{ date('d M, Y', strtotime($enrollment_details->created_at)) }}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($enrollment as $enrollment_details)
-                                        <tr>
-                                            <td>
-                                                <h2>
-                                                    <a>{{ $enrollment_details->title }}</a>
-                                                </h2>
-                                            </td>
-                                            <td>${{ $enrollment_details->price }}</td>
-                                            <td>{{ date('d M, Y', strtotime($enrollment_details->created_at)) }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                @endforeach
+                            </tbody>
+                        </table>
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,7 @@
 
 
         <div class="row">
-            <a href="/quickbooks/create-customer">Check ID= {{ auth()->user()->id }}</a>
+
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
                 <div class="card bg-comman w-100">
                     <div class="card-body">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-         
+
         </div>
 
 
@@ -120,13 +120,13 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-3 dash-widget1">
+                                <div class="col-lg-3 col-md-3 dash-widget1">
                                     <img width="80" height="80"
                                         src="https://img.icons8.com/officel/80/knowledge-sharing.png"
                                         alt="knowledge-sharing" />
 
                                 </div>
-                                <div class="col-lg-4 col-md-3">
+                                <div class="col-lg-5 col-md-3">
                                     <div class="dash-details">
                                         <div class="lesson-activity">
                                             <div class="lesson-imgs">
@@ -145,8 +145,8 @@
                                                 <img src="assets/img/icons/lesson-icon-06.svg" alt="">
                                             </div>
                                             <div class="views-lesson">
-                                                <h5>Enrollment Price</h5>
-                                                <h4>${{ number_format($course_details->price) }}</h4>
+                                                <h5>Area Covered</h5>
+                                                <h4>{{ $course_details->area_covered }}</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -171,11 +171,12 @@
                                                     class="btn btn-success enroll_now_btn text-white fs-20"
                                                     style="font-size: 10px;">Check Available Exam</a></button>
                                         @else
-                                            <button type="submit" class="btn btn-info continue-btn pt-1 pb-1"> <a
-                                                    href="{{ route('student.enroll', ['id' => encrypt($course_details->id)]) }}"
-                                                    class="btn enroll_now_btn text-white">Enroll Now</a></button>
+                                            <button type="button" class="btn btn-sm bg-danger-light" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop{{ $course_details->id }}">
+                                                Enroll Now
+                                            </button>
                                         @endif
-
+                                        @include('UserSide.course-enrollment-modal')
                                         <button type="submit" class="btn btn-transparent"> </button>
                                     </div>
                                 </div>
@@ -187,4 +188,26 @@
         </div>
 
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#course-enrollment-form').submit(function(event) {
+                // Prevent the form from submitting
+                event.preventDefault();
+
+                // Check if at least one hour is selected
+                if ($('input[name="selected_hour"]:checked').length === 0) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                    }
+                    toastr.error("Please Select Hour")
+                    return;
+                }
+
+                this.submit();
+            });
+        });
+    </script>
 @endsection

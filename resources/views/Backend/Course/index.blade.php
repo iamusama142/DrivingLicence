@@ -3,7 +3,6 @@
 @section('course_li', 'active')
 @section('course_a', 'active')
 @section('content')
-
     <div class="content container-fluid">
 
         <div class="page-header">
@@ -21,44 +20,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <form action="{{ route('courses.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="bank-inner-details">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-12">
-                                        <div class="form-group">
-                                            <label>Course Title<span class="text-danger">*</span></label>
-                                            <input type="text" name="title" placeholder="Enter Course Title"
-                                                class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-12">
-                                        <div class="form-group">
-                                            <label>Course Price<span class="text-danger">*</span></label>
-                                            <input type="number" name="price" placeholder="Enter Course Price"
-                                                class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-                                            <label>Course Description</label>
-                                            <textarea id="summernote_blog" name="description"></textarea>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" blog-categories-btn pt-0">
-                            <div class="bank-details-btn ">
-
-                                <button type="submit" class="btn bank-cancel-btn me-2 btn-block">Add Course</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
                 <div class="card card-table comman-shadow">
                     <div class="card-body">
 
@@ -67,8 +29,10 @@
                                 <div class="col">
                                     <h3 class="page-title">Courses</h3>
                                 </div>
-
+                                <button type="button" data-bs-toggle="modal" style="width: 8%!important;"
+                                    data-bs-target="#add-modal-course" class="btn btn-primary btn-sm">Add Course</button>
                             </div>
+
                         </div>
 
                         <div class="table-responsive">
@@ -77,11 +41,12 @@
                                 <thead class="student-thread">
                                     <tr>
                                         <th>
-                                           #
+                                            #
                                         </th>
                                         <th>Course Name</th>
-                                        <th>Price</th>
+                                        <th>Area Covered</th>
                                         <th>Status</th>
+
                                         <th>Created At</th>
                                         <th class="text-end">Action</th>
                                     </tr>
@@ -89,10 +54,10 @@
                                 @foreach ($course as $key => $course_details)
                                     <tr>
                                         <td>
-                                           {{$key + 1}}
+                                            {{ $key + 1 }}
                                         </td>
                                         <td>{{ $course_details->title }}</td>
-                                        <td>$ {{ number_format($course_details->price) }}</td>
+                                        <td>{{ $course_details->area_covered }}</td>
 
                                         <td>
                                             @if ($course_details->status == '0')
@@ -121,6 +86,8 @@
                                         @include('Backend.Course.edit-modal')
                                     </tr>
                                 @endforeach
+                                @include('Backend.Course.add-modal')
+
                             </table>
                         </div>
                     </div>
@@ -128,4 +95,77 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+
+            $(document).on("click", ".add-course-field-btn", function() {
+                var newfield = '<div class="row">' +
+                    '<div class="col-md-5">' +
+                    '<div class="form-group">' +
+                    '<label>Hours<span class="text-danger">*</span></label>' +
+                    '<input type="number" name="hours[]" placeholder="Enter Course Hours" class="form-control" required>' +
+                    '</div>' +
+                    '</div>' +
+
+                    '<div class="col-md-5">' +
+                    '<div class="form-group">' +
+                    '<label>Price<span class="text-danger">*</span></label>' +
+                    '<input type="number" name="price[]" placeholder="Enter Course Hour Price"  class="form-control" required>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-2">' +
+                    '<div class="form-group">' +
+
+                    '   <button type="button" class="btn btn-sm btn-danger remove-course-field-btn">Remove</button>' +
+                    '</div>' +
+
+                    '</div>'
+
+                '</div>'
+                $(".container-field").append(newfield);
+                return false;
+
+
+                return false;
+            });
+            $(".container-field").on('click', '.remove-course-field-btn', function() {
+                $(this).closest('.row').remove();
+                return false;
+            });
+
+
+            $(document).on("click", ".add-course-field-edit", function() {
+                var newfield = '<div class="row">' +
+                    '<div class="col-md-5">' +
+                    '<div class="form-group">' +
+                    '<label>Hours<span class="text-danger">*</span></label>' +
+                    '<input type="number" name="hours[]" placeholder="Enter Course Hours" class="form-control" required>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-5">' +
+                    '<div class="form-group">' +
+                    '<label>Price<span class="text-danger">*</span></label>' +
+                    '<input type="number" name="price[]" placeholder="Enter Course Hour Price"  class="form-control" required>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-2">' +
+                    '<div class="form-group">' +
+                    '   <button type="button" class="btn btn-sm btn-danger remove-course-field-edit">Remove</button>' +
+                    '</div>' +
+                    '</div>'
+                '</div>'
+                $(".container-field-edit").append(newfield);
+                return false;
+
+
+                $(".container-field-edit").on('click', '.remove-course-field-edit', function() {
+                    $(this).closest('.row').remove();
+                    return false;
+                });
+            });
+
+        });
+    </script>
 @endsection

@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('student_galleries', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug');
-            $table->longText('area_covered');
-            $table->longText('hours');
-            $table->longText('price');
-            $table->longText('description')->nullable();
+            $table->text('name');
+            $table->longText('image');
             $table->enum('status', ['1', '0'])->default('1');
             $table->timestamps();
         });
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('student_galleries');
     }
 };

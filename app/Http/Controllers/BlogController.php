@@ -30,6 +30,39 @@ class BlogController extends Controller
         return view('Backend.Blogs.add-blog')->with(compact('categories'));
     }
 
+    public function blogs_all_api()
+    {
+        $blogs = Blog::join('blog_categories','blog_categories.id','blogs.category_id')
+                    ->select('blog_categories.name','blogs.*')
+                    ->get();
+    
+        foreach($blogs as $blog) {
+            $blog->banner = config('app.url').'/public'.$blog->banner;
+        }
+    
+        return response()->json([
+            'code'=>'success',
+            'blogs'=>$blogs
+        ]);
+    }
+    
+    
+    public function blogs_detail_api($slug)
+    {
+        $blogs = Blog::where('blogs.slug',$slug)->join('blog_categories','blog_categories.id','blogs.category_id')
+                    ->select('blog_categories.name','blogs.*')
+                    ->first();
+    
+       
+            $blogs->banner = config('app.url').'/public'.$blogs->banner;
+        
+    
+        return response()->json([
+            'code'=>'success',
+            'blog_detail'=>$blogs
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

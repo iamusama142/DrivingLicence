@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('enrollment_id');
             $table->string('student_id');
+            $table->string('hours');
+            $table->string('price');
+            $table->string('quantity');
+            $table->string('total_payment');
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->enum('status', ['0', '1'])->default('1');
